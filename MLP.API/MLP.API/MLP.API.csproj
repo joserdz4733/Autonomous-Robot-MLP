@@ -28,16 +28,10 @@
 
   <ItemGroup>
     <Reference Include="MLP">
-      <HintPath>..\..\..\..\..\Downloads\for_redistribution_files_only\for_redistribution_files_only\MLP.dll</HintPath>
+      <HintPath>..\..\Resources\MLP.dll</HintPath>
     </Reference>
     <Reference Include="MWArray">
       <HintPath>..\..\..\..\..\..\..\Program Files\MATLAB\MATLAB Runtime\v95\toolbox\dotnetbuilder\bin\win64\v4.0\MWArray.dll</HintPath>
-    </Reference>
-    <Reference Include="untitled">
-      <HintPath>..\..\..\..\..\Downloads\untitled.dll</HintPath>
-    </Reference>
-    <Reference Include="ZedGraph">
-      <HintPath>..\..\ImageProcessing\ImageProcessing\bin\Debug\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
 
