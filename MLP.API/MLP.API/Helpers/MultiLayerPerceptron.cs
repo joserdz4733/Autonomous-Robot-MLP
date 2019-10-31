@@ -175,6 +175,8 @@ namespace MLP.API.Helpers
 
         public static void CalculateNeuronOutput(NeuronForManipulation neuron, ActivationFunctionType activationFunction, double Alpha, IList<double> inputs)
         {
+            neuron.Weights = neuron.Weights.OrderBy(a => a.Index).ToList();
+
             double outputSum = 0;
             for (int i = 0; i < neuron.Weights.Count; i++)
             {

@@ -53,10 +53,8 @@ namespace MLP.API.Controllers
                 }
             }
 
-            MWArray X = //new MWNumericArray(trainingSet.XEntries.ToArray());
-                        new MWNumericArray(x);
-            MWArray D = //new MWNumericArray(trainingSet.YExpected.ToArray());
-                        new MWNumericArray(d);
+            MWArray X = new MWNumericArray(x);
+            MWArray D = new MWNumericArray(d);
             MWArray No = new MWNumericArray(NeuralNetworkFromRepo.TrainingConfig.HiddenNeuronElements);
             MWArray Ns = new MWNumericArray(NeuralNetworkFromRepo.TrainingConfig.OutputNeuronElements);
             MWArray eta = new MWNumericArray(NeuralNetworkFromRepo.TrainingConfig.Eta);
@@ -80,6 +78,7 @@ namespace MLP.API.Controllers
 
             foreach(NeuronForManipulation hiddenNeuron in HiddenLayer)
             {
+                hiddenNeuron.Weights = hiddenNeuron.Weights.OrderBy(a => a.Index).ToList();
                 for (int i = 1; i < NeuralNetworkFromRepo.TrainingConfig.InputSize + 1; i++)
                 {
                     hiddenNeuron.Weights[i-1].Weight = Convert.ToDouble(result[0][hiddenNeuron.Index, i+1].ToString());                    
@@ -89,6 +88,7 @@ namespace MLP.API.Controllers
 
             foreach(NeuronForManipulation outputNeuron in OutputLayer)
             {
+                outputNeuron.Weights = outputNeuron.Weights.OrderBy(a => a.Index).ToList();
                 for (int i = 1; i < NeuralNetworkFromRepo.TrainingConfig.HiddenNeuronElements + 1; i++)
                 {
                     outputNeuron.Weights[i-1].Weight = Convert.ToDouble(result[1][outputNeuron.Index, i+1].ToString());
