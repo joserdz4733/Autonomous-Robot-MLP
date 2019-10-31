@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace MLP.ImageProcessing
 {
-    public static class ImageHelpers
+    public class ImageHelpers
     {
-        public static Image<Bgr, Byte> B64ToImg(string imgB64, int imgWidth, int imgHeight)
+        public Image<Bgr, Byte> B64ToImg(string imgB64, int imgWidth, int imgHeight)
         {
             Image<Bgr, Byte> image = new Image<Bgr, byte>(imgWidth, imgHeight);
 
+            //image.Bytes = System.Text.Encoding.UTF8.GetBytes(imgB64); 
             image.Bytes = Convert.FromBase64String(imgB64);
 
             return image;
