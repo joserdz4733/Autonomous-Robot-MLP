@@ -10,7 +10,7 @@
     <Grid>
         <ComboBox HorizontalAlignment="Left" Margin="840,55,0,0" VerticalAlignment="Top" Width="120" Name="cmbNeuralNetwork" SelectionChanged="CmbNeuralNetwork_SelectionChanged"/>
         <Label Content="Neural Network" HorizontalAlignment="Left" Margin="725,55,0,0" VerticalAlignment="Top" Width="110"/>
-        <Image Name="ctrCaptureImage" Source="nothing.jpg" HorizontalAlignment="Left" Height="480" Margin="20,52,0,0" VerticalAlignment="Top" Width="640"/>
+        <Image Name="ctrCaptureImage" HorizontalAlignment="Left" Height="480" Margin="20,52,0,0" VerticalAlignment="Top" Width="640"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="480" Margin="20,52,0,0" VerticalAlignment="Top" Width="640"/>
         <ComboBox HorizontalAlignment="Left" Margin="840,94,0,0" VerticalAlignment="Top" Width="120" Name="cmbPredictedObject" SelectionChanged="CmbPredictedObject_SelectionChanged"/>
         <Label Content="Predicted Object" HorizontalAlignment="Left" Margin="725,94,0,0" VerticalAlignment="Top" Width="110"/>
