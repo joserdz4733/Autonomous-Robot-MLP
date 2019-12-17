@@ -12,9 +12,11 @@ using System.Threading.Tasks;
 using MLP;
 using MathWorks.MATLAB.NET.Utility;
 using MathWorks.MATLAB.NET.Arrays;
+using Microsoft.AspNetCore.Http;
 
 namespace MLP.API.Controllers
 {
+    [Consumes("application/json")]
     [Route("api/neuralNetwork/{neuralNetworkId}/TrainMatlab")]
     public class TrainMatlabController : ControllerBase
     {
@@ -28,8 +30,21 @@ namespace MLP.API.Controllers
             _urlHelper = urlHelper;
         }
 
+        /// <summary>
+        /// Train neural network by using it's active configuration and MATLAB DLL
+        /// </summary>
+        /// <param name="neuralNetworkId">the id of the neural network you want to train</param>
+        /// <returns>200 ok when finished</returns>
+        /// <remarks>
+        /// Server should have matlab sdk \
+        /// Warning! Server should expect a full CPU utilization when trainning 
+        /// </remarks>
+        /// <respose code="200">Return Ok</respose>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost(Name = "TrainNetworkMatlab")]
-        public IActionResult TrainNetworkMatlab(Guid neuralNetworkId)
+        public ActionResult TrainNetworkMatlab(Guid neuralNetworkId)
         {
             if (!_mlpRepository.NeuralNetworkExists(neuralNetworkId))
             {

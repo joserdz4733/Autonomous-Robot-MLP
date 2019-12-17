@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,8 @@ using Microsoft.Extensions.Options;
 using MLP.Entities;
 using MLP.Services;
 using Newtonsoft.Json.Serialization;
+using System.IO;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace MLP.API
 {
@@ -34,11 +37,29 @@ namespace MLP.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(setupAction => {
+
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+
                 setupAction.ReturnHttpNotAcceptable = true; //406
+
+                var jsonOutputFormatter = setupAction.OutputFormatters
+                    .OfType<JsonOutputFormatter>().FirstOrDefault();
+
+                if (jsonOutputFormatter != null)
+                {
+                    // remove text/json as it isn't the approved media type
+                    // for working with JSON at API level
+                    if (jsonOutputFormatter.SupportedMediaTypes.Contains("text/json"))
+                    {
+                        jsonOutputFormatter.SupportedMediaTypes.Remove("text/json");
+                    }
+                }
                 //setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
                 //setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -47,15 +68,58 @@ namespace MLP.API
             var connectionString = Configuration["connectionStrings:DefaultConnection"];
             services.AddDbContext<MLPContext>(o => o.UseSqlServer(connectionString));
 
+            services.Configure<ApiBehaviorOptions>(options => 
+            {
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var actionExecutingContext = actionContext as Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext;
+
+                    // if there are modelstate errors & all keys were correctly
+                    // found/parsed we're dealing with validation errors
+                    if (actionContext.ModelState.ErrorCount > 0
+                        && actionExecutingContext?.ActionArguments.Count == actionContext.ActionDescriptor.Parameters.Count)
+                    {
+                        return new UnprocessableEntityObjectResult(actionContext.ModelState);
+                    }
+
+                    // if one of the keys wasn't correctly found / couldn't be parsed
+                    // we're dealing with null/unparsable input
+                    return new BadRequestObjectResult(actionContext.ModelState);
+                };
+            });
+
             // register the repository
             services.AddScoped<IMLPRepository, MLPRepository>();
-
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddScoped<IUrlHelper, UrlHelper>(implementationFactory =>
             {
-                var actionContect =
+                var actionContext =
                 implementationFactory.GetService<IActionContextAccessor>().ActionContext;
-                return new UrlHelper(actionContect);
+                return new UrlHelper(actionContext);
+            });
+
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc("MLPOpenAPISpecification", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "MLP API",
+                    Version = "1.0",
+                    Description = "API for creating and handling MLPs",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                    {
+                        Email = "Joserdz4733@gmail.com",
+                        Name = "José Rodríguez Arias"
+                    }
+                });
+
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+                //var xmlCommentsServicesFile = $"MLP.Services.xml";
+                //var xmlCommentsServicesFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsServicesFile);
+
+                setupAction.IncludeXmlComments(xmlCommentsFullPath);
+                //setupAction.IncludeXmlComments(xmlCommentsServicesFullPath);
             });
         }
 
@@ -71,6 +135,7 @@ namespace MLP.API
             }
             else
             {
+                app.UseHsts();
                 app.UseExceptionHandler(appBuilder => {
                     appBuilder.Run(async context => {
                         var exceptionHadlerFeature = context.Features.Get<IExceptionHandlerFeature>();
@@ -111,6 +176,21 @@ namespace MLP.API
 
             });
             //mlpcontext.EnsureSeedDataForContext();
+
+            app.UseHttpsRedirection();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint(
+                    "/MLP/swagger/MLPOpenAPISpecification/swagger.json",
+                    "MLP API");
+                setupAction.RoutePrefix = "";
+            });
+
+            app.UseStaticFiles();
+
             app.UseMvc();
         }
     }

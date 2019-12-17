@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MLP.API</name>
+    </assembly>
+    <members>
+        <member name="M:MLP.API.Controllers.TrainMatlabController.TrainNetworkMatlab(System.Guid)">
+            <summary>
+            Train neural network by using it's active configuration and MATLAB DLL
+            </summary>
+            <param name="neuralNetworkId">the id of the neural network you want to train</param>
+            <returns>200 ok when finished</returns>
+            <remarks>
+            Server should have matlab sdk \
+            Warning! Server should expect a full CPU utilization when trainning 
+            </remarks>
+            <respose code="200">Return Ok</respose>
+        </member>
+    </members>
+</doc>

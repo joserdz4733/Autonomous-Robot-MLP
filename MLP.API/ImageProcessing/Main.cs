@@ -19,7 +19,7 @@ namespace MLP.ImageProcessing
             {
                 for (int j = 0; j < image.Width; j++)
                 {
-                    if (image.Data[i, j, 0] >= (blueAvg - (ValuesFactor * blueStdDev)) && image.Data[i, j, 0] <= (blueAvg + (ValuesFactor * blueStdDev)) &&
+                    if (image.Data[i, j, 0] >= (blueAvg - (ValuesFactor / 1.9 * blueStdDev)) && image.Data[i, j, 0] <= (blueAvg + (ValuesFactor / 1.9 * blueStdDev)) &&
                        image.Data[i, j, 1] >= (greenAvg - (ValuesFactor * greenStdDev)) && image.Data[i, j, 1] <= (greenAvg + (ValuesFactor * greenStdDev)) &&
                        image.Data[i, j, 2] >= (redAvg - (ValuesFactor * redStdDev)) && image.Data[i, j, 2] <= (redAvg + (ValuesFactor * redStdDev)))
                     {

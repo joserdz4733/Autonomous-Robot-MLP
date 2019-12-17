@@ -29,7 +29,7 @@ namespace MLP.API.Controllers
         }
 
         [HttpGet(Name = "GetTrainingConfigForNeuralNetwork")]
-        public IActionResult GetTrainingConfigForNeuralNetwork(Guid neuralNetworkId)
+        public ActionResult<NeuralNetworkTrainingConfigDto> GetTrainingConfigForNeuralNetwork(Guid neuralNetworkId)
         {
             if (!_mlpRepository.NeuralNetworkExists(neuralNetworkId))
             {

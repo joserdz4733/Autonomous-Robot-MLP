@@ -25,7 +25,7 @@ namespace MLP.API.Controllers
         }
 
         [HttpGet(Name = "GetNeuralNetworks")]
-        public IActionResult GetNeuralNetworks()
+        public ActionResult GetNeuralNetworks()
         {
             var neuralNetworksFromRepo = _mlpRepository.GetNeuralNetworks();
 

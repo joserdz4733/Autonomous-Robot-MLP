@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MLP.ImageProcessing;
+using Microsoft.AspNetCore.Http;
 
 namespace MLP.API.Controllers
 {
@@ -21,8 +22,9 @@ namespace MLP.API.Controllers
             this._mlpRepository = mlpRepository;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("{id}", Name = "GetImageProcessingConfig")]
-        public IActionResult GetImageProcessingConfig(int Id)
+        public ActionResult<ImageProcessingConfigDto> GetImageProcessingConfig(int Id)
         {
 
             var imageProcessingConfigFromRepo = _mlpRepository.GetImageProcessingConfig(Id);
@@ -34,10 +36,11 @@ namespace MLP.API.Controllers
 
             var imageProcessingConfig = Mapper.Map<ImageProcessingConfigDto>(imageProcessingConfigFromRepo);
             return Ok(imageProcessingConfig);
-        }        
+        }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet(Name = "GetAllImageProcessingConfigs")]
-        public IActionResult GetAllImageProcessingConfigs()
+        public ActionResult<IEnumerable<ImageProcessingConfigDto>> GetAllImageProcessingConfigs()
         {
             var imageProcessingConfigsFromRepo = _mlpRepository.GetAllImageProcessingConfigs();
 
@@ -46,7 +49,7 @@ namespace MLP.API.Controllers
         }
 
         [HttpPost(Name = "CreateImageProcessingConfig")]
-        public IActionResult CreateImageProcessingConfig([FromBody] ImageProcessingConfigForCreationDto imageProcessingConfig)
+        public ActionResult<ImageProcessingConfigDto> CreateImageProcessingConfig([FromBody] ImageProcessingConfigForCreationDto imageProcessingConfig)
         {
             var neuralNetworkFromRepo = _mlpRepository.GetNeuralNetwork(imageProcessingConfig.NeuralNetworkId);
             if (neuralNetworkFromRepo == null)

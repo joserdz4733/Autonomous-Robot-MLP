@@ -22,7 +22,7 @@ namespace MLP.API.Controllers
         }
 
         [HttpPost(Name = "GetImageProcessed")]
-        public IActionResult GetImageProcessed(Guid neuralNetworkId, [FromBody]ImageDto image)
+        public ActionResult<PredictedObjectResultDto> GetImageProcessed(Guid neuralNetworkId, [FromBody]ImageDto image)
         {
             var neuralNetworkFromRepo = _mlpRepository.GetFullNeuralNetwork(neuralNetworkId);
 
