@@ -29,6 +29,7 @@ namespace ClientApp
     {
         private VideoCapture Capture;
         private int Counter = 0;
+        private string StartupFolder;
         private string Folder = "CameraSets";
         private string ProcessedFolder = "ProcessedImages";
         private string Separator = " ";
@@ -43,11 +44,14 @@ namespace ClientApp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            StartupFolder = new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.FullName;
             Capture = new VideoCapture(1);
             NeuralNetworks = NeuralNetworkService.GetNeuralNetworks();
 
             cmbNeuralNetwork.ItemsSource = NeuralNetworks;
             cmbNeuralNetwork.DisplayMemberPath = "Name";
+            SetDefaultImage();
+            DeleteTemporalImages();
         }
 
         private void CmbNeuralNetwork_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -105,9 +109,7 @@ namespace ClientApp
 
         private string GetImageSetFolder(Guid Id)
         {
-            var dir = new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.FullName;
-
-            dir = System.IO.Path.Combine(dir, Folder);
+            var dir = System.IO.Path.Combine(StartupFolder, Folder);
             dir = System.IO.Path.Combine(dir, Id.ToString());
 
             return dir;
@@ -138,45 +140,70 @@ namespace ClientApp
                     var img = new Image<Bgr, byte>(file);
                     var imgProcessed = MLP.ImageProcessing.ClientApp.ProcessImageClientApp(img, ImageProcessingConfig);
                     var name = System.IO.Path.GetFileName(file);//.Split('_')[0];
-                    //var objPredited = TrainingConfig.PredictedObjects.Where(po => po.ObjectName == name).FirstOrDefault();
 
-                    //finalFile.Add(
-                    //    TrainingDatasetHelper.ListToString(MLP.ImageProcessing.ClientApp.ProcessImageClientAppBinarized(imgProcessed, ImageProcessingConfig), Separator) + 
-                    //    TrainingDatasetHelper.GetSetY(objPredited.Index, TrainingConfig.PredictedObjects.Count, Separator) 
-                    //    );
-                    
+                    var objPredited = TrainingConfig.PredictedObjects.Where(po => po.ObjectName == name.Split('_')[0]).FirstOrDefault();
+
+                    finalFile.Add(
+                        TrainingDatasetHelper.ListToString(MLP.ImageProcessing.ClientApp.ProcessImageClientAppBinarized(imgProcessed, ImageProcessingConfig), Separator) +
+                        TrainingDatasetHelper.GetSetY(objPredited.Index, TrainingConfig.PredictedObjects.Count, Separator)
+                        );
+
                     Bitmap bitmap = imgProcessed.Bitmap;
                     bitmap.Save(System.IO.Path.Combine(dir,name), ImageFormat.Bmp);
                 }
+                var to = System.IO.Path.Combine(TrainingConfig.TrainingDatabaseFileRoute, txtFileName.Text);
 
-                //var to = System.IO.Path.Combine(TrainingConfig.TrainingDatabaseFileRoute, txtFileName.Text);
-
-                //using (StreamWriter writer = new System.IO.StreamWriter(to))
-                //{
-                //    foreach (var lineValue in finalFile)
-                //    {
-                //        writer.WriteLine(lineValue);
-                //    }
-                //}
-            }
+                using (StreamWriter writer = new System.IO.StreamWriter(to))
+                {
+                    foreach (var lineValue in finalFile)
+                    {
+                        writer.WriteLine(lineValue);
+                    }
+                }
+            }            
         }
 
         private void BtnPreview_Click(object sender, RoutedEventArgs e)
         {
-            Image<Bgr, Byte> ColorImage = Capture.QueryFrame().ToImage<Bgr, Byte>();
-            Bitmap bitmap = ColorImage.Bitmap;
-            var dir = new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.FullName;
-            var final = System.IO.Path.Combine(dir, "preview.bmp");
-            if (File.Exists(final))
-            {
-                ctrCaptureImage.Source = null;
-                File.Delete(final);
-            }
-            bitmap.Save( final, ImageFormat.Bmp);
+            SetDefaultImage();
+            Image<Bgr, Byte> ColorImage = Capture.QueryFrame().ToImage<Bgr, Byte>();            
+            //Bitmap bitmap = ColorImage.Bitmap;
+            Bitmap bitmap = MLP.ImageProcessing.ClientApp.ProcessImageClientApp(ColorImage, ImageProcessingConfig).Bitmap;
+            
+            var final = System.IO.Path.Combine(StartupFolder, $"Preview/preview_{DateTime.Now.ToString("MMddyyyyHHmmssffff")}.bmp");
+            //if (File.Exists(final))
+            //{
+            //    File.Delete(final);
+            //}
+            bitmap.Save(final, ImageFormat.Bmp);
+
+            //var bmi = new BitmapImage(new Uri(final));
+            //bmi.CacheOption = BitmapCacheOption.OnLoad;
+
             ImageSource source = new BitmapImage(new Uri(final));
             ctrCaptureImage.Source = source;
 
             txtBase64.Text = Convert.ToBase64String(ColorImage.Bytes);
+        }
+
+        private void SetDefaultImage()
+        {
+            var defaultImage = System.IO.Path.Combine(StartupFolder, "default.png");
+            ImageSource source = new BitmapImage(new Uri(defaultImage));
+            ctrCaptureImage.Source = source;
+        }
+
+        private void DeleteTemporalImages()
+        {
+            string[] files = Directory.GetFiles(System.IO.Path.Combine(StartupFolder, "Preview"), "*.bmp");
+
+            if (files.Count() > 0)
+            {                
+                foreach (string file in files)
+                {
+                    File.Delete(file);
+                }
+            }
         }
     }
 }

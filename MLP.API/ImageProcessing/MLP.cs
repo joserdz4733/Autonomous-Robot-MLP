@@ -16,7 +16,8 @@ namespace MLP.ImageProcessing
     {
         public List<double> ProcessImageMLP(ImageDto imageDto, ImageProcessingConfig processingConfig)
         {
-            Image<Bgr, Byte> image = ImageHelpers.B64ToImg(imageDto.ImageBase64, imageDto.ImageWidth, imageDto.ImageHeight);
+            ImageHelpers imageHelpers = new ImageHelpers();
+            Image<Bgr, Byte> image = imageHelpers.B64ToImg(imageDto.ImageBase64, imageDto.ImageWidth, imageDto.ImageHeight);
             Main mainFunctions = new Main();
             //image = ImageHelpers.Resize(image, processingConfig.ResizeSize);
 
@@ -40,9 +41,37 @@ namespace MLP.ImageProcessing
             return ImageHelpers.ImageToList(imageGray);
         }
 
+        public List<double> ProcessLocalImageMLP(string imageLocation, ImageProcessingConfig processingConfig)
+        {
+            ImageHelpers imageHelpers = new ImageHelpers();
+            Image<Bgr, Byte> image = new Image<Bgr, byte>(imageLocation);
+            Main mainFunctions = new Main();
+            //image = ImageHelpers.Resize(image, processingConfig.ResizeSize);
+
+            switch (processingConfig.ImageFilter)
+            {
+                case ImageFilter.box:
+                    image = mainFunctions.BoxFilter(image, processingConfig.ImageFilterSize);
+                    break;
+                case ImageFilter.median:
+                default:
+                    image = mainFunctions.MedianFilter(image, processingConfig.ImageFilterSize);
+                    break;
+            }
+
+            Image<Gray, Byte> imageGray = mainFunctions.Binarization(image, processingConfig.ValuesFactor, processingConfig.BlueAvg, processingConfig.BlueStd,
+                                            processingConfig.GreenAvg, processingConfig.GreenStd, processingConfig.RedAvg, processingConfig.RedStd);
+
+            imageGray = mainFunctions.MorphOp(imageGray);
+            imageGray = ImageHelpers.ResizeBW(imageGray, processingConfig.ResizeSize);
+
+            return ImageHelpers.ImageToList(imageGray);
+        }
+
         public ImageProcessingConfigValuesDto GetImageProcessingConfig(ImageDto imageDto)
-        {            
-            Image<Bgr, Byte> image = ImageHelpers.B64ToImg(imageDto.ImageBase64, imageDto.ImageWidth, imageDto.ImageHeight);
+        {
+            ImageHelpers imageHelpers = new ImageHelpers();
+            Image<Bgr, Byte> image = imageHelpers.B64ToImg(imageDto.ImageBase64, imageDto.ImageWidth, imageDto.ImageHeight);
             ImageProcessingConfigValuesDto imageProcessingConfig = new ImageProcessingConfigValuesDto();
 
             imageProcessingConfig.BlueAvg = ImageHelpers.CalculateAvg(image[(int)Enumerations.ImageChannels.Blue]);

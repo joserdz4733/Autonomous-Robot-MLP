@@ -25,6 +25,7 @@ namespace MLP.API.Controllers
         public IActionResult GetImageProcessed(Guid neuralNetworkId, [FromBody]ImageDto image)
         {
             var neuralNetworkFromRepo = _mlpRepository.GetFullNeuralNetwork(neuralNetworkId);
+
             if (neuralNetworkFromRepo == null)
             {
                 return NotFound("Red no encontrada");
