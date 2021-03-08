@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Enums;
 using MultiLayerPerceptron.Data;
 using MultiLayerPerceptron.Data.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.Application.Services
 {

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Emgu.CV" Version="4.5.1.4349" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MultiLayerPerceptron.Contract\MultiLayerPerceptron.Contract.csproj" />
     <ProjectReference Include="..\MultiLayerPerceptron.Data\MultiLayerPerceptron.Data.csproj" />
   </ItemGroup>

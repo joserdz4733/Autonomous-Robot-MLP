@@ -10,6 +10,7 @@ namespace MultiLayerPerceptron.Application.Extensions
         {
             services.AddScoped<INeuralNetworkService, NeuralNetworkService>();
             services.AddScoped<IImageProcessingConfigService, ImageProcessingConfigService>();
+            services.AddScoped<IImageProcessingService, ImageProcessingService>();
             return services;
         }
     }

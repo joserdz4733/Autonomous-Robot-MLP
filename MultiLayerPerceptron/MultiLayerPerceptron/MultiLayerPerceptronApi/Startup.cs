@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MultiLayerPerceptron.Application.Extensions;
+using MultiLayerPerceptron.Data.Extensions;
 using MultiLayerPerceptron.WebApi.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -36,7 +37,10 @@ namespace MultiLayerPerceptron.WebApi
                     });
             });
 
-            services.AddApplicationServices();
+            services
+                .AddApplicationServices()
+                .AddDataServices(_configuration);
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddNewtonsoftJson(options =>
