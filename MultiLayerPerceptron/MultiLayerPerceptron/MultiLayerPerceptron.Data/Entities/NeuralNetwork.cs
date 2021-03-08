@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MLP.Entities
+namespace MultiLayerPerceptron.Data.Entities
 {
     public class NeuralNetwork
     {

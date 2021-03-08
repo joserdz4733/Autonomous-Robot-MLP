@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MultiLayerPerceptron.Application.Interfaces;
+using MultiLayerPerceptron.Application.Services;
 
 namespace MultiLayerPerceptron.Application.Extensions
 {
@@ -6,6 +8,8 @@ namespace MultiLayerPerceptron.Application.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<INeuralNetworkService, NeuralNetworkService>();
+            services.AddScoped<IImageProcessingConfigService, ImageProcessingConfigService>();
             return services;
         }
     }

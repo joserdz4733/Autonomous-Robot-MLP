@@ -1,9 +1,9 @@
-﻿using MultiLayerPerceptron.Contract.Enums;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MultiLayerPerceptron.Contract.Enums;
 
-namespace MLP.Entities
+namespace MultiLayerPerceptron.Data.Entities
 {
     public class ImageProcessingConfig
     {

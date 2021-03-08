@@ -1,4 +1,4 @@
-﻿namespace MLP.Models.OutputModels
+﻿namespace MultiLayerPerceptron.Contract.Dtos
 {
     public class ImageProcessingConfigValuesDto
     {

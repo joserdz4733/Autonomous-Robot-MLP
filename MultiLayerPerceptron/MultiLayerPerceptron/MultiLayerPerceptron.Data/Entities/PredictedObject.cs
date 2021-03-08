@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MLP.Entities
+namespace MultiLayerPerceptron.Data.Entities
 {
     public class PredictedObject
     {

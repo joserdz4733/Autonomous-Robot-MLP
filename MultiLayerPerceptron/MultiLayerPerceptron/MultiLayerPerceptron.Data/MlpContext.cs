@@ -1,5 +1,5 @@
-﻿using MLP.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MultiLayerPerceptron.Data.Entities;
 
 namespace MultiLayerPerceptron.Data
 {

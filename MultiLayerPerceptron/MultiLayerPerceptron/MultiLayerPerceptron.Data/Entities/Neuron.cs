@@ -1,10 +1,10 @@
-﻿using MLP.Enumerations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MultiLayerPerceptron.Contract.Enums;
 
-namespace MLP.Entities
+namespace MultiLayerPerceptron.Data.Entities
 {
     public class Neuron
     {
