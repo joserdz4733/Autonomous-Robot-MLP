@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Contract.Enums;
 using MultiLayerPerceptron.Data.Entities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.Application.Interfaces
 {
@@ -15,6 +16,6 @@ namespace MultiLayerPerceptron.Application.Interfaces
         Task<NeuralNetwork> GetNeuralNetwork(Guid neuralNetworkId);
         Task<NeuralNetwork> GetFullNeuralNetwork(Guid neuralNetworkId);
         Task<IList<Neuron>> GetNeurons(Guid neuralNetworkId, NeuronType neuronType);
-        Task<NeuralNetworkTrainingConfig> GetTrainingConfig(Guid neuralNetworkId);
+        Task<NeuralNetworkTrainingConfigDto> GetTrainingConfig(Guid neuralNetworkId)
     }
 }

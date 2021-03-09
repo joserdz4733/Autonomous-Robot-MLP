@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Enums;
 using MultiLayerPerceptron.Data;
@@ -13,10 +15,12 @@ namespace MultiLayerPerceptron.Application.Services
     public class NeuralNetworkService : INeuralNetworkService
     {
         private readonly MlpContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public NeuralNetworkService(MlpContext dbContext)
+        public NeuralNetworkService(MlpContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task AddNeuralNetwork(NeuralNetwork neuralNetwork)
@@ -67,11 +71,17 @@ namespace MultiLayerPerceptron.Application.Services
                 .OrderBy(x => x.Index).ToListAsync();
         }
 
-        public async Task<NeuralNetworkTrainingConfig> GetTrainingConfig(Guid neuralNetworkId)
+        public async Task<NeuralNetworkTrainingConfigDto> GetTrainingConfig(Guid neuralNetworkId)
         {
-            return await _dbContext.NeuralNetworkTrainingConfigs
+            var config = await _dbContext.NeuralNetworkTrainingConfigs
                 .Include(x => x.PredictedObjects).AsNoTracking()
                 .FirstOrDefaultAsync(x => x.NeuralNetworkId == neuralNetworkId);
+
+            if (config == null)
+            {
+                throw new Exception("Configuration not found");
+            }
+            return _mapper.Map<NeuralNetworkTrainingConfigDto>(config);
         }
     }
 }
