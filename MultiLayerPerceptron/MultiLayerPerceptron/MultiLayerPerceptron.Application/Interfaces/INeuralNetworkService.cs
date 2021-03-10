@@ -16,6 +16,6 @@ namespace MultiLayerPerceptron.Application.Interfaces
         Task<NeuralNetwork> GetNeuralNetwork(Guid neuralNetworkId);
         Task<NeuralNetwork> GetFullNeuralNetwork(Guid neuralNetworkId);
         Task<IList<Neuron>> GetNeurons(Guid neuralNetworkId, NeuronType neuronType);
-        Task<NeuralNetworkTrainingConfigDto> GetTrainingConfig(Guid neuralNetworkId)
+        Task<NeuralNetworkTrainingConfigDto> GetTrainingConfig(Guid neuralNetworkId);
     }
 }

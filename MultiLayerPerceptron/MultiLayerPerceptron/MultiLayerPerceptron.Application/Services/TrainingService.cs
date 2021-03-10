@@ -34,19 +34,19 @@ namespace MultiLayerPerceptron.Application.Services
             {
                 throw new Exception($"Neural Network with id {neuralNetworkId} not found.");
             }
-            var trainingSet = TrainingSetHelpers.GetTrainingSetMatlab(neuralNetwork.TrainingConfig);
-            var entriesSet = new double[trainingSet.XEntries.Count, neuralNetwork.TrainingConfig.InputSize];
-            var desiredSet = new double[trainingSet.YExpected.Count, neuralNetwork.TrainingConfig.OutputNeuronElements];
+            var trainingSet = DataSetHelpers.GetSet(neuralNetwork.TrainingConfig);
+            var entriesSet = new double[trainingSet.Count, neuralNetwork.TrainingConfig.InputSize];
+            var desiredSet = new double[trainingSet.Count, neuralNetwork.TrainingConfig.OutputNeuronElements];
 
-            for (var i = 0; i < trainingSet.XEntries.Count; i++)
+            for (var i = 0; i < trainingSet.Count; i++)
             {
                 for (var j = 0; j < neuralNetwork.TrainingConfig.InputSize; j++)
                 {
-                    entriesSet[i, j] = trainingSet.XEntries[i][j];
+                    entriesSet[i, j] = trainingSet[i].Entries[j];
                 }
                 for (var k = 0; k < neuralNetwork.TrainingConfig.OutputNeuronElements; k++)
                 {
-                    desiredSet[i, k] = trainingSet.YExpected[i][k];
+                    desiredSet[i, k] = trainingSet[i].Expected[k];
                 }
             }
 
@@ -95,7 +95,7 @@ namespace MultiLayerPerceptron.Application.Services
             {
                 throw new Exception($"Neural Network with id {neuralNetworkId} not found.");
             }
-            var trainingSet = TrainingSetHelpers.GetTrainingSet(neuralNetwork.TrainingConfig);
+            var trainingSet = DataSetHelpers.GetSet(neuralNetwork.TrainingConfig);
 
             var hiddenLayer =
                 _mapper.Map<IList<NeuronForManipulation>>(
@@ -118,7 +118,7 @@ namespace MultiLayerPerceptron.Application.Services
                     foreach (var hiddenNeuron in hiddenLayer)
                     {
                         MlpHelpers.CalculateNeuronOutput(hiddenNeuron, neuralNetwork.TrainingConfig.HiddenActivationFunction,
-                            Alpha, currentSet.XEntries);
+                            Alpha, currentSet.Entries);
                         hiddenOutput.Add(hiddenNeuron.Output);
                     }
 
@@ -130,7 +130,7 @@ namespace MultiLayerPerceptron.Application.Services
 
                     for (var j = 0; j < outputLayer.Count; j++)
                     {
-                        var error = currentSet.YExpected[j] - outputLayer[j].Output;
+                        var error = currentSet.Expected[j] - outputLayer[j].Output;
                         MlpHelpers.RecalculateDelta(outputLayer[j], neuralNetwork.TrainingConfig.OutputActivationFunction, Alpha,
                             error);
                     }
@@ -149,7 +149,7 @@ namespace MultiLayerPerceptron.Application.Services
 
                     foreach (var hiddenNeuron in hiddenLayer)
                     {
-                        MlpHelpers.RecalculateWeights(hiddenNeuron, neuralNetwork.TrainingConfig.Eta, currentSet.XEntries);
+                        MlpHelpers.RecalculateWeights(hiddenNeuron, neuralNetwork.TrainingConfig.Eta, currentSet.Entries);
                     }
                 }
             }
