@@ -36,5 +36,30 @@ namespace MultiLayerPerceptron.Application.Utils
 
             return trainingSet;
         }
+
+        public static MatlabTrainingSet GetMatlabTrainingSet(NeuralNetworkTrainingConfig trainingConfig)
+        {
+            var dataSet = GetSet(trainingConfig);
+            var matlabSet = new MatlabTrainingSet
+            {
+                EntriesSet = new double[dataSet.Count, trainingConfig.InputSize],
+                DesiredSet = new double[dataSet.Count, trainingConfig.OutputNeuronElements]
+            };
+
+            for (var i = 0; i < dataSet.Count; i++)
+            {
+                for (var j = 0; j < trainingConfig.InputSize; j++)
+                {
+                    matlabSet.EntriesSet[i, j] = dataSet[i].Entries[j];
+                }
+
+                for (var k = 0; k < trainingConfig.OutputNeuronElements; k++)
+                {
+                    matlabSet.DesiredSet[i, k] = dataSet[i].Expected[k];
+                }
+            }
+
+            return matlabSet;
+        }
     }
 }

@@ -15,11 +15,11 @@ namespace MultiLayerPerceptron.WebApi.Controllers
     public class TrainController : ControllerBase
     {
         private readonly ITrainingService _trainingService;
-        private readonly INeuralNetworkService _neuralNetworkService;
-        public TrainController(ITrainingService trainingService, INeuralNetworkService neuralNetworkService)
+        private readonly INeuralNetworkRepoService _neuralNetworkRepoService;
+        public TrainController(ITrainingService trainingService, INeuralNetworkRepoService neuralNetworkRepoService)
         {
             _trainingService = trainingService;
-            _neuralNetworkService = neuralNetworkService;
+            _neuralNetworkRepoService = neuralNetworkRepoService;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         [HttpGet(Name = "config")]
         public async Task<ActionResult<NeuralNetworkTrainingConfigDto>> GetTrainingConfigForNeuralNetwork(Guid neuralNetworkId)
         {
-            var result = await _neuralNetworkService.GetTrainingConfig(neuralNetworkId);
+            var result = await _neuralNetworkRepoService.GetTrainingConfig(neuralNetworkId);
             return Ok(result);
         }
 

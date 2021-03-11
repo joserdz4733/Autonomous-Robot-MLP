@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using MultiLayerPerceptron.Application.Extensions;
 using MultiLayerPerceptron.Application.Interfaces;
+using MultiLayerPerceptron.Application.Models;
 using MultiLayerPerceptron.Application.Utils;
 using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Enums;
@@ -13,59 +15,27 @@ namespace MultiLayerPerceptron.Application.Services
 {
     public class TestService : ITestService
     {
-        private readonly INeuralNetworkService _neuralNetworkService;
-        private readonly IMapper _mapper;
+        private readonly INeuralNetworkRepoService _neuralNetworkRepoService;
+        private readonly IMlpService _mlpService;
         private const double Alpha = 1d;
-        public TestService(INeuralNetworkService neuralNetworkService, IMapper mapper)
+        public TestService(INeuralNetworkRepoService neuralNetworkRepoService, IMlpService mlpService)
         {
-            _neuralNetworkService = neuralNetworkService;
-            _mapper = mapper;
+            _neuralNetworkRepoService = neuralNetworkRepoService;
+            _mlpService = mlpService;
         }
 
         public async Task<TestDto> TestNeuralNetwork(Guid id)
         {
-            var neuralNetwork = await _neuralNetworkService.GetFullNeuralNetwork(id);
-            var testSet = DataSetHelpers.GetSet(neuralNetwork.TrainingConfig, false);
-
-            var correctResponses = 0;
-            var hiddenLayer =
-                _mapper.Map<IList<NeuronForManipulation>>(
-                    neuralNetwork.Neurons
-                        .Where(a => a.NeuronType == NeuronType.Hidden)
-                        .OrderBy(a => a.Index));
-
-            var outputLayer =
-                _mapper.Map<IList<NeuronForManipulation>>(
-                    neuralNetwork.Neurons
-                        .Where(a => a.NeuronType == NeuronType.Output)
-                        .OrderBy(a => a.Index));
-
-            foreach (var t in testSet)
+            var neuralNetwork = await _neuralNetworkRepoService.GetFullNeuralNetwork(id);
+            if (neuralNetwork == null)
             {
-                // TODO refactor forward step
-                var hiddenOutput = new List<double>();
-                foreach (var hiddenNeuron in hiddenLayer)
-                {
-                    MlpHelpers.CalculateNeuronOutput(hiddenNeuron, neuralNetwork.TrainingConfig.HiddenActivationFunction, Alpha,
-                        t.Entries);
-                    hiddenOutput.Add(hiddenNeuron.Output);
-                }
-
-                foreach (var outputNeuron in outputLayer)
-                {
-                    MlpHelpers.CalculateNeuronOutput(outputNeuron, neuralNetwork.TrainingConfig.OutputActivationFunction, Alpha,
-                        hiddenOutput);
-                }
-
-                var maxNeuralNetwork = outputLayer.OrderByDescending(s => s.Output).First();
-                if (t.Expected[maxNeuralNetwork.Index - 1] == 1)
-                { 
-                    correctResponses++;
-                }
+                throw new Exception($"Neural Network with id {id} not found.");
             }
+            var testSet = DataSetHelpers.GetSet(neuralNetwork.TrainingConfig, false);
+            var efficiency = _mlpService.TestEfficiency(neuralNetwork, testSet);
 
             return new TestDto
-                { Efficiency = correctResponses / (double)testSet.Count * 100d, TestElements = testSet.Count };
+                { Efficiency = efficiency, TestElements = testSet.Count };
         }
     }
 }

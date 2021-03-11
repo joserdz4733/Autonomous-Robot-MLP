@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.Application.Interfaces
 {
-    public interface INeuralNetworkService
+    public interface INeuralNetworkRepoService
     {
         Task AddNeuralNetwork(NeuralNetwork neuralNetwork);
         Task<bool> NeuralNetworkExists(Guid neuralNetworkId);

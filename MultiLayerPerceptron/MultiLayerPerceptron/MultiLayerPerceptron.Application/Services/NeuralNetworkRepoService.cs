@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.Application.Services
 {
-    public class NeuralNetworkService : INeuralNetworkService
+    public class NeuralNetworkRepoService : INeuralNetworkRepoService
     {
         private readonly MlpContext _dbContext;
         private readonly IMapper _mapper;
 
-        public NeuralNetworkService(MlpContext dbContext, IMapper mapper)
+        public NeuralNetworkRepoService(MlpContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Enums;
 
-namespace MultiLayerPerceptron.Application.Utils
+namespace MultiLayerPerceptron.Application.Extensions
 {
-    public static class MlpHelpers
+    public static class NeuronExtensions
     {
-        public static void CalculateNeuronOutput(NeuronForManipulation neuron,
+        public static void CalculateNeuronOutput(this NeuronForManipulation neuron,
             ActivationFunctionType activationFunction, double alpha, IList<double> inputs)
         {
             neuron.Weights = neuron.Weights.OrderBy(a => a.Index).ToList();
@@ -17,22 +16,27 @@ namespace MultiLayerPerceptron.Application.Utils
             outputSum += neuron.Bias;
             neuron.Output = NeuronActiveFunctionResult(activationFunction, alpha, outputSum);
         }
-
-        public static void RecalculateWeights(NeuronForManipulation neuron, double eta, IList<double> inputs)
+        
+        public static void RecalculateWeights(this NeuronForManipulation neuron, double eta, IList<double> inputs)
         {
             var etaDelta = eta * neuron.Delta;
             for (var i = 0; i < neuron.Weights.Count; i++)
             {
                 neuron.Weights[i].Weight += etaDelta * inputs[i];
             }
+
             neuron.Bias += etaDelta;
         }
 
-        public static void RecalculateDelta(NeuronForManipulation neuron, ActivationFunctionType activationFunction,
+        public static double CalculateGradient(this NeuronForManipulation neuron) =>
+            neuron.Weights.Sum(weight => weight.Weight * neuron.Delta);
+
+        public static void RecalculateDelta(this NeuronForManipulation neuron,
+            ActivationFunctionType activationFunction,
             double alpha, double value) =>
             neuron.Delta = value * NeuronDiffActiveFunctionResult(neuron, activationFunction, alpha);
 
-        public static double NeuronActiveFunctionResult(ActivationFunctionType activationFunction, double alpha,
+        private static double NeuronActiveFunctionResult(ActivationFunctionType activationFunction, double alpha,
             double input)
         {
             var output = input;
@@ -53,7 +57,7 @@ namespace MultiLayerPerceptron.Application.Utils
             return output;
         }
 
-        public static double NeuronDiffActiveFunctionResult(NeuronForManipulation neuron,
+        private static double NeuronDiffActiveFunctionResult(NeuronForManipulation neuron,
             ActivationFunctionType activationFunction, double alpha)
         {
             var diffOutput = 1d;
@@ -70,6 +74,7 @@ namespace MultiLayerPerceptron.Application.Utils
                 default:
                     throw new ArgumentOutOfRangeException(nameof(activationFunction), activationFunction, null);
             }
+
             return diffOutput;
         }
     }
