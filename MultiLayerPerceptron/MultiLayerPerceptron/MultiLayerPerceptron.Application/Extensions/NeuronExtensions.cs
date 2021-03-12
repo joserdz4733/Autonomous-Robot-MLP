@@ -12,8 +12,7 @@ namespace MultiLayerPerceptron.Application.Extensions
             ActivationFunctionType activationFunction, double alpha, IList<double> inputs)
         {
             neuron.Weights = neuron.Weights.OrderBy(a => a.Index).ToList();
-            var outputSum = neuron.Weights.Select((t, i) => inputs[i] * t.Weight).Sum();
-            outputSum += neuron.Bias;
+            var outputSum = neuron.Weights.Select((t, i) => inputs[i] * t.Weight).Sum() + neuron.Bias;
             neuron.Output = NeuronActiveFunctionResult(activationFunction, alpha, outputSum);
         }
         
@@ -66,7 +65,7 @@ namespace MultiLayerPerceptron.Application.Extensions
                 case ActivationFunctionType.Lineal:
                     break;
                 case ActivationFunctionType.Tangential:
-                    diffOutput = ((1d - neuron.Output) * (1d + neuron.Output));
+                    diffOutput = (1d - neuron.Output) * (1d + neuron.Output);
                     break;
                 case ActivationFunctionType.Sigmoid:
                     diffOutput = alpha * neuron.Output * (1d - neuron.Output);
