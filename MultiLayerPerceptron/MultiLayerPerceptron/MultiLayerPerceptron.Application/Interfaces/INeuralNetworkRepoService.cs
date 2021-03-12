@@ -1,4 +1,5 @@
 ﻿using MLP.Models.OutputModels;
+using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Enums;
 using MultiLayerPerceptron.Data.Entities;
 using System;
@@ -9,11 +10,11 @@ namespace MultiLayerPerceptron.Application.Interfaces
 {
     public interface INeuralNetworkRepoService
     {
-        Task AddNeuralNetwork(NeuralNetwork neuralNetwork);
+        Task<NeuralNetworkDto> AddNeuralNetwork(NeuralNetworkForCreationDto neuralNetworkDto);
         Task<bool> NeuralNetworkExists(Guid neuralNetworkId);
         Task UpdateNeuralNetwork(NeuralNetwork neuralNetwork);
-        Task DeleteNeuralNetwork(NeuralNetwork neuralNetwork);
-        Task<NeuralNetwork> GetNeuralNetwork(Guid neuralNetworkId);
+        Task DeleteNeuralNetwork(Guid neuralNetworkId);
+        Task<NeuralNetworkDto> GetNeuralNetwork(Guid neuralNetworkId);
         Task<NeuralNetwork> GetFullNeuralNetwork(Guid neuralNetworkId);
         Task<IList<Neuron>> GetNeurons(Guid neuralNetworkId, NeuronType neuronType);
         Task<NeuralNetworkTrainingConfigDto> GetTrainingConfig(Guid neuralNetworkId);

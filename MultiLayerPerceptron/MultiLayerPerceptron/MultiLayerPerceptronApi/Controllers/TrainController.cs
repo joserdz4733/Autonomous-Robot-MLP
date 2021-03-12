@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Application.Interfaces;
-using MultiLayerPerceptron.Contract.Requests;
+using System;
+using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.WebApi.Controllers
 {
@@ -28,6 +25,7 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="neuralNetworkId">Neural network Id</param>
         /// <returns></returns>
         [HttpGet(Name = "config")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<NeuralNetworkTrainingConfigDto>> GetTrainingConfigForNeuralNetwork(Guid neuralNetworkId)
         {
             var result = await _neuralNetworkRepoService.GetTrainingConfig(neuralNetworkId);
@@ -40,11 +38,11 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="neuralNetworkId">Neural network Id</param>
         /// <returns>Ok if it was trained successfully</returns>
         [HttpPost("train-with-matlab")]
-        [ProducesResponseType(typeof(ActionResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> TrainNetworkMatlab(Guid neuralNetworkId)
         {
             await _trainingService.TrainNetworkMatlab(neuralNetworkId);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -53,10 +51,11 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="neuralNetworkId">Neural network Id</param>
         /// <returns>Ok if it was trained successfully</returns>
         [HttpPost("train")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult> TrainNetwork(Guid neuralNetworkId)
         {
             await _trainingService.TrainNetwork(neuralNetworkId);
-            return Ok();
+            return NoContent();
         }
     }
 }

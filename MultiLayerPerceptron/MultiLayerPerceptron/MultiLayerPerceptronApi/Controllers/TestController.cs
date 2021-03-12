@@ -1,13 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Responses;
+using System;
+using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.WebApi.Controllers
 {
     [Route("api/neural-network/{neuralNetworkId}/test")]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public class TestController : ControllerBase
     {
         private readonly ITestService _testService;

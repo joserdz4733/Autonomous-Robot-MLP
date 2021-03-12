@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Application.Interfaces;
+using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Enums;
 using MultiLayerPerceptron.Data;
 using MultiLayerPerceptron.Data.Entities;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MultiLayerPerceptron.Application.Extensions;
 
 namespace MultiLayerPerceptron.Application.Services
 {
@@ -23,11 +25,21 @@ namespace MultiLayerPerceptron.Application.Services
             _mapper = mapper;
         }
 
-        public async Task AddNeuralNetwork(NeuralNetwork neuralNetwork)
+        public async Task<NeuralNetworkDto> AddNeuralNetwork(NeuralNetworkForCreationDto neuralNetworkDto)
         {
-            neuralNetwork.Id = Guid.NewGuid();
+            if (neuralNetworkDto == null)
+            {
+                throw new Exception("Dto null");
+            }
+            var neuralNetwork = _mapper.Map<NeuralNetwork>(neuralNetworkDto);
+            if (neuralNetworkDto.TrainingConfig != null)
+            {
+                neuralNetwork.CreateNeurons();
+            }
+
             await _dbContext.NeuralNetworks.AddAsync(neuralNetwork);
             await _dbContext.SaveChangesAsync();
+            return _mapper.Map<NeuralNetworkDto>(neuralNetwork);
         }
 
         public async Task<bool> NeuralNetworkExists(Guid neuralNetworkId)
@@ -41,17 +53,27 @@ namespace MultiLayerPerceptron.Application.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteNeuralNetwork(NeuralNetwork neuralNetwork)
+        public async Task DeleteNeuralNetwork(Guid neuralNetworkId)
         {
+            var neuralNetwork = await GetNeuralNetwork(neuralNetworkId);
+            if (neuralNetwork == null)
+            {
+                throw new Exception($"Neural Network with id {neuralNetworkId} not found.");
+            }
             _dbContext.NeuralNetworks.Remove(neuralNetwork);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<NeuralNetwork> GetNeuralNetwork(Guid neuralNetworkId)
+        public async Task<NeuralNetworkDto> GetNeuralNetwork(Guid neuralNetworkId)
         {
-            return await _dbContext.NeuralNetworks
+            var neuralNetwork = await _dbContext.NeuralNetworks
                 .Include(x => x.TrainingConfig)
                 .SingleOrDefaultAsync(x => x.Id == neuralNetworkId);
+            if (neuralNetwork == null)
+            {
+                throw new Exception($"Neural Network with id {neuralNetworkId} not found.");
+            }
+            return _mapper.Map<NeuralNetworkDto>(neuralNetwork);
         }
 
         public async Task<NeuralNetwork> GetFullNeuralNetwork(Guid neuralNetworkId)
