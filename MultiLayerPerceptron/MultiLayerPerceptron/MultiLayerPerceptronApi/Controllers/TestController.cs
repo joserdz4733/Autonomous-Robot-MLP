@@ -10,7 +10,6 @@ namespace MultiLayerPerceptron.WebApi.Controllers
 {
     [Route("api/neural-network/{neuralNetworkId}/test")]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
     public class TestController : ControllerBase
     {
         private readonly ITestService _testService;
@@ -26,10 +25,11 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="neuralNetworkId">neural network Id</param>
         /// <returns>efficiency result</returns>
         [HttpGet("TestNeuralNetwork")]
+        [ProducesResponseType(typeof(BaseResponse<TestDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<BaseResponse<TestDto>>> TestNeuralNetwork(Guid neuralNetworkId)
         {
             var result = await _testService.TestNeuralNetwork(neuralNetworkId);
-            return Ok(result);
+            return Ok(new BaseResponse<TestDto> { Body = result });
         }
     }
 }

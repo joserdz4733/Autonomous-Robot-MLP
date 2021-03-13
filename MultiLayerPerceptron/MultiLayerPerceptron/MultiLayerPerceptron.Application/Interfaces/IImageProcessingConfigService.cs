@@ -1,4 +1,5 @@
-﻿using MultiLayerPerceptron.Data.Entities;
+﻿using MultiLayerPerceptron.Contract.Dtos;
+using MultiLayerPerceptron.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,10 +8,14 @@ namespace MultiLayerPerceptron.Application.Interfaces
 {
     public interface IImageProcessingConfigService
     {
-        Task AddImageProcessingConfig(ImageProcessingConfig imageProcessingConfig);
+        Task<ImageProcessingConfigDto> GetImageProcessingConfig(int id);
+        Task<ImageProcessingConfigDto> CreateImageProcessingConfig(
+            ImageProcessingConfigForCreationDto imageProcessingConfig);
+        Task<ImageProcessingConfigDto> CreateImageProcessingConfigWithImage(
+            ImageProcessingConfigWithImageForCreationDto imageProcessingConfig);
+        Task<ImageProcessingConfigDto> GetActiveImageProcessingConfigDtoByNetworkId(Guid id);
+        Task<ImageProcessingConfig> GetActiveImageProcessingConfigByNetworkId(Guid id);
+        Task<IEnumerable<ImageProcessingConfigDto>> GetImageProcessingConfigsByNetworkId(Guid id);
         Task DeleteImageProcessingConfig(ImageProcessingConfig imageProcessingConfig);
-        Task<ImageProcessingConfig> GetImageProcessingConfig(int id);
-        Task<ImageProcessingConfig> GetActiveImageProcessingConfigByNeuralNetwork(Guid id);
-        Task<IEnumerable<ImageProcessingConfig>> GetImageProcessingConfigByNeuralNetwork(Guid id);
     }
 }

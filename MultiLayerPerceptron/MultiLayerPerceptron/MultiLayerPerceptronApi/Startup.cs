@@ -39,7 +39,8 @@ namespace MultiLayerPerceptron.WebApi
 
             services
                 .AddApplicationServices()
-                .AddDataServices(_configuration);
+                .AddDataServices(_configuration)
+                .AddApiServices();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)

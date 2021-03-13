@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Dtos;
+using MultiLayerPerceptron.Contract.Responses;
 using System;
 using System.Threading.Tasks;
 
@@ -24,11 +25,11 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="id">neural network id</param>
         /// <returns>Neural network dto</returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<NeuralNetworkDto>> GetNeuralNetwork(Guid id)
+        [ProducesResponseType(typeof(BaseResponse<NeuralNetworkDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<BaseResponse<NeuralNetworkDto>>> GetNeuralNetwork(Guid id)
         {
             var neuralNetwork = await _neuralNetworkRepoService.GetNeuralNetwork(id);
-            return Ok(neuralNetwork);
+            return Ok(new BaseResponse<NeuralNetworkDto> { Body = neuralNetwork });
         }
 
         /// <summary>
@@ -37,12 +38,12 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="neuralNetwork">neural network values</param>
         /// <returns>created neural network dto</returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<NeuralNetworkDto>> CreateNeuralNetwork(
+        [ProducesResponseType(typeof(BaseResponse<NeuralNetworkDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<BaseResponse<NeuralNetworkDto>>> CreateNeuralNetwork(
             [FromBody] NeuralNetworkForCreationDto neuralNetwork)
         {
             var neuralNetworkToReturn = await _neuralNetworkRepoService.AddNeuralNetwork(neuralNetwork);
-            return CreatedAtAction(nameof(CreateNeuralNetwork), neuralNetworkToReturn);
+            return Ok(new BaseResponse<NeuralNetworkDto> { Body = neuralNetworkToReturn });
         }
 
         /// <summary>

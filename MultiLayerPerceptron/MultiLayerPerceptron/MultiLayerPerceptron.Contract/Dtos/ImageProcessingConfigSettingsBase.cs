@@ -24,8 +24,6 @@ namespace MultiLayerPerceptron.Contract.Dtos
         [Required]
         public int ResizeSize { get; set; }
 
-        //only one config can be active, so it will take 
-        //first or default with active set to true
         public bool Active { get; set; } = false;
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Application.Interfaces;
+using MultiLayerPerceptron.Contract.Responses;
 using System;
 using System.Threading.Tasks;
 
@@ -25,11 +26,12 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="neuralNetworkId">Neural network Id</param>
         /// <returns></returns>
         [HttpGet(Name = "config")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<NeuralNetworkTrainingConfigDto>> GetTrainingConfigForNeuralNetwork(Guid neuralNetworkId)
+        [ProducesResponseType(typeof(BaseResponse<NeuralNetworkTrainingConfigDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<BaseResponse<NeuralNetworkTrainingConfigDto>>> GetTrainingConfigForNeuralNetwork(
+            Guid neuralNetworkId)
         {
             var result = await _neuralNetworkRepoService.GetTrainingConfig(neuralNetworkId);
-            return Ok(result);
+            return Ok(new BaseResponse<NeuralNetworkTrainingConfigDto> {Body = result});
         }
 
         /// <summary>

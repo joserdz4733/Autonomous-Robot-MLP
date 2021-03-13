@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Dtos;
+using MultiLayerPerceptron.Contract.Responses;
 using System;
 using System.Threading.Tasks;
 
@@ -24,11 +25,12 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="image">image base64 bytes with height and width</param>
         /// <returns>the predicted object with the accuracy</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(ActionResult<PredictedObjectResultDto>),StatusCodes.Status200OK)]
-        public async Task<ActionResult<PredictedObjectResultDto>> GetImageProcessed(Guid neuralNetworkId, [FromBody]ImageDto image)
+        [ProducesResponseType(typeof(BaseResponse<PredictedObjectResultDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<BaseResponse<PredictedObjectResultDto>>> GetImageProcessed(Guid neuralNetworkId,
+            [FromBody] ImageDto image)
         {
             var result = await _imageProcessingService.GetPrediction(neuralNetworkId, image);
-            return Ok(result);
+            return Ok(new BaseResponse<PredictedObjectResultDto> {Body = result});
         }
 
         /// <summary>
@@ -38,11 +40,11 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// <param name="image">base64 image string with metadata</param>
         /// <returns>the predicted object with the accuracy</returns>
         [HttpPost("raspberry")]
-        [ProducesResponseType(typeof(ActionResult<PredictedObjectResultDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<PredictedObjectResultDto>> GetImageProcessedRasp(Guid neuralNetworkId, [FromBody]ImageRaspDto image)
+        [ProducesResponseType(typeof(BaseResponse<PredictedObjectResultDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<BaseResponse<PredictedObjectResultDto>>> GetImageProcessedRasp(Guid neuralNetworkId, [FromBody]ImageRaspDto image)
         {
             var result = await _imageProcessingService.GetPrediction(neuralNetworkId, image);
-            return Ok(result);
+            return Ok(new BaseResponse<PredictedObjectResultDto> { Body = result });
         }
     }
 }
