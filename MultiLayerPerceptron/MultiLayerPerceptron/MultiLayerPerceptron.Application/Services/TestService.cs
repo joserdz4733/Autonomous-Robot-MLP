@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using MultiLayerPerceptron.Application.Extensions;
-using MultiLayerPerceptron.Application.Interfaces;
-using MultiLayerPerceptron.Application.Models;
+﻿using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Application.Utils;
 using MultiLayerPerceptron.Contract.Dtos;
-using MultiLayerPerceptron.Contract.Enums;
+using System;
+using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.Application.Services
 {
@@ -17,7 +10,6 @@ namespace MultiLayerPerceptron.Application.Services
     {
         private readonly INeuralNetworkRepoService _neuralNetworkRepoService;
         private readonly IMlpService _mlpService;
-        private const double Alpha = 1d;
         public TestService(INeuralNetworkRepoService neuralNetworkRepoService, IMlpService mlpService)
         {
             _neuralNetworkRepoService = neuralNetworkRepoService;

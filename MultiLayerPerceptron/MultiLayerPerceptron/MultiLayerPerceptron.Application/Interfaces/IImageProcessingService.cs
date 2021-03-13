@@ -1,15 +1,12 @@
 ﻿using MultiLayerPerceptron.Contract.Dtos;
-using MultiLayerPerceptron.Data.Entities;
-using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.Application.Interfaces
 {
     public interface IImageProcessingService
     {
-        List<double> ProcessImageMlp(ImageDto imageDto, ImageProcessingConfig processingConfig);
-
-        List<double> ProcessLocalImageMlp(string imageLocation, ImageProcessingConfig processingConfig);
-
-        ImageProcessingConfigValuesDto GetImageProcessingConfig(ImageDto imageDto);
+        Task<PredictedObjectResultDto> GetPrediction(Guid neuralNetworkId, ImageDto imageDto);
+        Task<PredictedObjectResultDto> GetPrediction(Guid neuralNetworkId, ImageRaspDto imageDto);
     }
 }

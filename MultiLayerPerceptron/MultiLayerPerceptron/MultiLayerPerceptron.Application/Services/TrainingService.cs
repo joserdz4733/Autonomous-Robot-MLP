@@ -1,14 +1,6 @@
-﻿using AutoMapper;
-using MathWorks.MATLAB.NET.Arrays;
-using MultiLayerPerceptron.Application.Extensions;
-using MultiLayerPerceptron.Application.Interfaces;
+﻿using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Application.Utils;
-using MultiLayerPerceptron.Contract.Dtos;
-using MultiLayerPerceptron.Contract.Enums;
-using MultiLayerPerceptron.Data.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.Application.Services

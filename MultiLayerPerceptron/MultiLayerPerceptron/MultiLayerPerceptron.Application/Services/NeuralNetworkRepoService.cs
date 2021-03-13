@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MLP.Models.OutputModels;
+using MultiLayerPerceptron.Application.Extensions;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Enums;
@@ -10,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MultiLayerPerceptron.Application.Extensions;
 
 namespace MultiLayerPerceptron.Application.Services
 {
@@ -31,6 +31,7 @@ namespace MultiLayerPerceptron.Application.Services
             {
                 throw new Exception("Dto null");
             }
+
             var neuralNetwork = _mapper.Map<NeuralNetwork>(neuralNetworkDto);
             if (neuralNetworkDto.TrainingConfig != null)
             {
@@ -42,11 +43,6 @@ namespace MultiLayerPerceptron.Application.Services
             return _mapper.Map<NeuralNetworkDto>(neuralNetwork);
         }
 
-        public async Task<bool> NeuralNetworkExists(Guid neuralNetworkId)
-        {
-            return await _dbContext.NeuralNetworks.AsNoTracking().AnyAsync(a => a.Id == neuralNetworkId);
-        }
-
         public async Task UpdateNeuralNetwork(NeuralNetwork neuralNetwork)
         {
             _dbContext.NeuralNetworks.Update(neuralNetwork);
@@ -55,24 +51,24 @@ namespace MultiLayerPerceptron.Application.Services
 
         public async Task DeleteNeuralNetwork(Guid neuralNetworkId)
         {
-            var neuralNetwork = await GetNeuralNetwork(neuralNetworkId);
+            var neuralNetwork = await GetNeuralNetworkEntity(neuralNetworkId);
             if (neuralNetwork == null)
             {
                 throw new Exception($"Neural Network with id {neuralNetworkId} not found.");
             }
+
             _dbContext.NeuralNetworks.Remove(neuralNetwork);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<NeuralNetworkDto> GetNeuralNetwork(Guid neuralNetworkId)
         {
-            var neuralNetwork = await _dbContext.NeuralNetworks
-                .Include(x => x.TrainingConfig)
-                .SingleOrDefaultAsync(x => x.Id == neuralNetworkId);
+            var neuralNetwork = await GetNeuralNetworkEntity(neuralNetworkId);
             if (neuralNetwork == null)
             {
                 throw new Exception($"Neural Network with id {neuralNetworkId} not found.");
             }
+
             return _mapper.Map<NeuralNetworkDto>(neuralNetwork);
         }
 
@@ -103,7 +99,15 @@ namespace MultiLayerPerceptron.Application.Services
             {
                 throw new Exception("Configuration not found");
             }
+
             return _mapper.Map<NeuralNetworkTrainingConfigDto>(config);
+        }
+
+        private async Task<NeuralNetwork> GetNeuralNetworkEntity(Guid neuralNetworkId)
+        {
+            return await _dbContext.NeuralNetworks
+                .Include(x => x.TrainingConfig)
+                .SingleOrDefaultAsync(x => x.Id == neuralNetworkId);
         }
     }
 }

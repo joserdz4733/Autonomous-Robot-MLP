@@ -11,7 +11,6 @@ namespace MultiLayerPerceptron.Application.Interfaces
     public interface INeuralNetworkRepoService
     {
         Task<NeuralNetworkDto> AddNeuralNetwork(NeuralNetworkForCreationDto neuralNetworkDto);
-        Task<bool> NeuralNetworkExists(Guid neuralNetworkId);
         Task UpdateNeuralNetwork(NeuralNetwork neuralNetwork);
         Task DeleteNeuralNetwork(Guid neuralNetworkId);
         Task<NeuralNetworkDto> GetNeuralNetwork(Guid neuralNetworkId);

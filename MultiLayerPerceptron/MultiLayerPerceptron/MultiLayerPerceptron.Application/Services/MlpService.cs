@@ -24,6 +24,24 @@ namespace MultiLayerPerceptron.Application.Services
             _matLabFunction = new MLP.MLP();
         }
 
+        public PredictedObjectResultDto GetNetworkPrediction(NeuralNetwork neuralNetwork, List<double> input)
+        {
+            var hiddenLayer = GetNeurons(neuralNetwork, NeuronType.Hidden);
+            var outputLayer = GetNeurons(neuralNetwork, NeuronType.Output);
+            var set = new DataSetRow {Entries = input};
+
+            ProcessRowSet(neuralNetwork, hiddenLayer, outputLayer, set);
+            var maxNeuralNetwork = outputLayer.OrderByDescending(s => s.Output).First();
+            var predictedObject =
+                neuralNetwork.TrainingConfig.PredictedObjects.Single(po => po.Index == maxNeuralNetwork?.Index);
+            return new PredictedObjectResultDto
+            {
+                ObjectName = predictedObject?.ObjectName,
+                Index = maxNeuralNetwork.Index,
+                Accuracy = maxNeuralNetwork.Output
+            };
+        }
+
         public void TrainNetwork(NeuralNetwork neuralNetwork, List<DataSetRow> trainingSet)
         {
             var hiddenLayer = GetNeurons(neuralNetwork, NeuronType.Hidden);
