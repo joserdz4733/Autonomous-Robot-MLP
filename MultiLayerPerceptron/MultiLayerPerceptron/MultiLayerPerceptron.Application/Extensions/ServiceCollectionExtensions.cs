@@ -14,7 +14,7 @@ namespace MultiLayerPerceptron.Application.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<INeuralNetworkRepoService, NeuralNetworkRepoService>();
-            services.AddScoped<IImageProcessingService, IImageProcessingService>();
+            services.AddScoped<IImageProcessingService, ImageProcessingService>();
             services.AddScoped<IImageProcessingConfigService, ImageProcessingConfigService>();
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddScoped<ITestService, TestService>();
@@ -22,8 +22,16 @@ namespace MultiLayerPerceptron.Application.Extensions
 
             #region Mapping Profiles
             services.AddMappingProfile<ApplicationMappingProfile>();
+            services.AddMappingService();
             #endregion
             return services;
+        }
+
+        public static void AddMappingService(this IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(mc => { mc.AddProfiles(Profiles); });
+            var mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         public static void AddMappingProfile<T>(this IServiceCollection _) where T : Profile, new()
