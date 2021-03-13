@@ -58,6 +58,7 @@ namespace MultiLayerPerceptron.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("v1/swagger.json", "MultiLayerPerceptron Module"); });
             }
             else
             {
