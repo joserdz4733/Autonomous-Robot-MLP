@@ -113,6 +113,34 @@ namespace MultiLayerPerceptron.Application.Extensions
             return image;
         }
 
+        public static List<double> ProcessImageMlp(this Image<Bgr, byte> image, ImageProcessingConfig processingConfig)
+        {
+            image = processingConfig.ImageFilter switch
+            {
+                ImageFilter.Box => image.BoxFilter(processingConfig.ImageFilterSize),
+                ImageFilter.Median => image.MedianFilter(processingConfig.ImageFilterSize),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            var imageGray = image.Binarization(processingConfig);
+            imageGray = imageGray.MorphologicalOperation();
+            imageGray = imageGray.ResizeBw(processingConfig.ResizeSize);
+            return imageGray.ImageToList();
+        }
+
+        public static Image<Gray, byte> ProcessImageClientApp(this Image<Bgr, byte> image, ImageProcessingConfig processingConfig)
+        {
+            image = processingConfig.ImageFilter switch
+            {
+                ImageFilter.Box => image.BoxFilter(processingConfig.ImageFilterSize),
+                ImageFilter.Median => image.MedianFilter(processingConfig.ImageFilterSize),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            var imageGray = image.Binarization(processingConfig);
+            return imageGray.MorphologicalOperation();
+        }
+
         private static BinarizationLimits GetBinarizationLimits(ImageProcessingConfig config)
         {
             return new BinarizationLimits

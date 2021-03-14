@@ -16,6 +16,7 @@ namespace MultiLayerPerceptron.Application.Services
     {
         private readonly IMapper _mapper;
         private readonly MLP.MLP _matLabFunction;
+        // TODO move alpha to configuration
         private const double Alpha = 1d;
 
         public MlpService(IMapper mapper)

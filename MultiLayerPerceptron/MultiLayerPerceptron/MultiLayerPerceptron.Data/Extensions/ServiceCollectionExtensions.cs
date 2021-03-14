@@ -6,9 +6,9 @@ namespace MultiLayerPerceptron.Data.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddDataServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDataServices(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<MlpContext>(options => options.UseSqlServer(configuration.GetConnectionString("MlpConnection")));
+            services.AddDbContext<MlpContext>(options => options.UseSqlServer(connectionString));
             return services;
         }
     }

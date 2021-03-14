@@ -61,6 +61,14 @@ namespace MultiLayerPerceptron.Application.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<NeuralNetworkDto>> GetNeuralNetworks()
+        {
+            var neuralNetworks = await _dbContext.NeuralNetworks
+                .Include(x => x.TrainingConfig).AsNoTracking().ToListAsync();
+
+            return _mapper.Map<IEnumerable<NeuralNetworkDto>>(neuralNetworks);
+        }
+
         public async Task<NeuralNetworkDto> GetNeuralNetwork(Guid neuralNetworkId)
         {
             var neuralNetwork = await GetNeuralNetworkEntity(neuralNetworkId);
@@ -89,7 +97,7 @@ namespace MultiLayerPerceptron.Application.Services
                 .OrderBy(x => x.Index).ToListAsync();
         }
 
-        public async Task<NeuralNetworkTrainingConfigDto> GetTrainingConfig(Guid neuralNetworkId)
+        public async Task<NeuralNetworkTrainingConfigDto> GetTrainingConfigDto(Guid neuralNetworkId)
         {
             var config = await _dbContext.NeuralNetworkTrainingConfigs
                 .Include(x => x.PredictedObjects).AsNoTracking()
@@ -101,6 +109,13 @@ namespace MultiLayerPerceptron.Application.Services
             }
 
             return _mapper.Map<NeuralNetworkTrainingConfigDto>(config);
+        }
+
+        public async Task<NeuralNetworkTrainingConfig> GetTrainingConfig(Guid neuralNetworkId)
+        {
+            return await _dbContext.NeuralNetworkTrainingConfigs
+                .Include(x => x.PredictedObjects).AsNoTracking()
+                .FirstOrDefaultAsync(x => x.NeuralNetworkId == neuralNetworkId);
         }
 
         private async Task<NeuralNetwork> GetNeuralNetworkEntity(Guid neuralNetworkId)

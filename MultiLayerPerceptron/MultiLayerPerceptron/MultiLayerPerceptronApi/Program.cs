@@ -1,15 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MultiLayerPerceptron.WebApi;
 using NLog.Web;
 
-namespace MultiLayerPerceptronApi
+namespace MultiLayerPerceptron.WebApi
 {
     public class Program
     {

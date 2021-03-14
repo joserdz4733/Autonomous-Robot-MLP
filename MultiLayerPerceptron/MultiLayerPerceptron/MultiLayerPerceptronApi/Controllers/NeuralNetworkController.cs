@@ -4,6 +4,7 @@ using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Responses;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MultiLayerPerceptron.WebApi.Controllers
@@ -30,6 +31,18 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         {
             var neuralNetwork = await _neuralNetworkRepoService.GetNeuralNetwork(id);
             return Ok(new BaseResponse<NeuralNetworkDto> { Body = neuralNetwork });
+        }
+
+        /// <summary>
+        /// Get neural networks
+        /// </summary>
+        /// <returns>list of neural network dto</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseResponse<IEnumerable<NeuralNetworkDto>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<BaseResponse<IEnumerable<NeuralNetworkDto>>>> GetNeuralNetworks()
+        {
+            var neuralNetworks = await _neuralNetworkRepoService.GetNeuralNetworks();
+            return Ok(new BaseResponse<IEnumerable<NeuralNetworkDto>> {Body = neuralNetworks});
         }
 
         /// <summary>

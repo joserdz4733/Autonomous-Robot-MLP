@@ -30,7 +30,7 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         public async Task<ActionResult<BaseResponse<NeuralNetworkTrainingConfigDto>>> GetTrainingConfigForNeuralNetwork(
             Guid neuralNetworkId)
         {
-            var result = await _neuralNetworkRepoService.GetTrainingConfig(neuralNetworkId);
+            var result = await _neuralNetworkRepoService.GetTrainingConfigDto(neuralNetworkId);
             return Ok(new BaseResponse<NeuralNetworkTrainingConfigDto> {Body = result});
         }
 

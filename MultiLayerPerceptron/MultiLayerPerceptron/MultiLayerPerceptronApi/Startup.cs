@@ -39,7 +39,7 @@ namespace MultiLayerPerceptron.WebApi
 
             services
                 .AddApplicationServices()
-                .AddDataServices(_configuration)
+                .AddDataServices(_configuration.GetConnectionString("MlpConnection"))
                 .AddApiServices();
 
             services.AddMvc()
