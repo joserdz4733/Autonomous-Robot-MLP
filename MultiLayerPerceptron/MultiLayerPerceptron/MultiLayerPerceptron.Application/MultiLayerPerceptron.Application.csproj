@@ -22,7 +22,7 @@
       <HintPath>..\..\..\Resources\MLP.dll</HintPath>
     </Reference>
     <Reference Include="MWArray">
-      <HintPath>..\..\..\Resources\MWArray.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\MATLAB\MATLAB Runtime\v95\toolbox\dotnetbuilder\bin\win64\v4.0\MWArray.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiLayerPerceptron.WebApi", "MultiLayerPerceptronApi\MultiLayerPerceptron.WebApi.csproj", "{F9161286-E303-48EF-9BBF-719BA97A57D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLayerPerceptron.WebApi", "MultiLayerPerceptronApi\MultiLayerPerceptron.WebApi.csproj", "{F9161286-E303-48EF-9BBF-719BA97A57D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiLayerPerceptron.Tests", "MultiLayerPerceptron.Tests\MultiLayerPerceptron.Tests.csproj", "{9B4835F8-199B-4D8E-96E9-C88783ABE3AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLayerPerceptron.Tests", "MultiLayerPerceptron.Tests\MultiLayerPerceptron.Tests.csproj", "{9B4835F8-199B-4D8E-96E9-C88783ABE3AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{C5DE2149-2C18-442B-A579-8EEF1BC5FFBB}"
 EndProject
@@ -13,11 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D52E2571
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client app", "client app", "{30C2A2D2-3677-440C-8921-F7889425ED09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiLayerPerceptron.Data", "MultiLayerPerceptron.Data\MultiLayerPerceptron.Data.csproj", "{85B877E3-90AF-43F3-9F6F-6A65A5621CE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLayerPerceptron.Data", "MultiLayerPerceptron.Data\MultiLayerPerceptron.Data.csproj", "{85B877E3-90AF-43F3-9F6F-6A65A5621CE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiLayerPerceptron.Contract", "MultiLayerPerceptron.Contract\MultiLayerPerceptron.Contract.csproj", "{C520DC9A-5611-4D9B-91BE-75DC4D70B8F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLayerPerceptron.Contract", "MultiLayerPerceptron.Contract\MultiLayerPerceptron.Contract.csproj", "{C520DC9A-5611-4D9B-91BE-75DC4D70B8F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiLayerPerceptron.Application", "MultiLayerPerceptron.Application\MultiLayerPerceptron.Application.csproj", "{13DF5C11-BFB8-4BFD-9D89-DEE66A87F7EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLayerPerceptron.Application", "MultiLayerPerceptron.Application\MultiLayerPerceptron.Application.csproj", "{13DF5C11-BFB8-4BFD-9D89-DEE66A87F7EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp", "ClientApp\ClientApp.csproj", "{537DF336-A1D8-401B-BB66-AED1B6091EFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{13DF5C11-BFB8-4BFD-9D89-DEE66A87F7EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13DF5C11-BFB8-4BFD-9D89-DEE66A87F7EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13DF5C11-BFB8-4BFD-9D89-DEE66A87F7EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{537DF336-A1D8-401B-BB66-AED1B6091EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{537DF336-A1D8-401B-BB66-AED1B6091EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{537DF336-A1D8-401B-BB66-AED1B6091EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{537DF336-A1D8-401B-BB66-AED1B6091EFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{85B877E3-90AF-43F3-9F6F-6A65A5621CE0} = {C5DE2149-2C18-442B-A579-8EEF1BC5FFBB}
 		{C520DC9A-5611-4D9B-91BE-75DC4D70B8F6} = {C5DE2149-2C18-442B-A579-8EEF1BC5FFBB}
 		{13DF5C11-BFB8-4BFD-9D89-DEE66A87F7EE} = {C5DE2149-2C18-442B-A579-8EEF1BC5FFBB}
+		{537DF336-A1D8-401B-BB66-AED1B6091EFF} = {30C2A2D2-3677-440C-8921-F7889425ED09}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39C1C2C7-048D-4306-BCF1-57D0A2842B2F}
