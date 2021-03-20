@@ -1,7 +1,6 @@
-﻿using MultiLayerPerceptron.Contract.Dtos;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MLP.Models.OutputModels
+namespace MultiLayerPerceptron.Contract.Dtos
 {
     public class NeuralNetworkTrainingConfigDto : NeuralNetworkTrainingConfigBase
     {

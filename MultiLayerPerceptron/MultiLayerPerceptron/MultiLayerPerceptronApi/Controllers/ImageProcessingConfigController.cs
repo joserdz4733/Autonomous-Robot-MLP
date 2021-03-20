@@ -66,7 +66,7 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// </summary>
         /// <param name="id">Neural network id</param>
         /// <returns>active image processing config dto</returns>
-        [HttpGet("neural-network/{Id}/active-config")]
+        [HttpGet("neural-network/{id}/active-config")]
         [ProducesResponseType(typeof(BaseResponse<ImageProcessingConfigDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<BaseResponse<ImageProcessingConfigDto>>> GetImageProcessingActiveConfig(Guid id)
         {
@@ -79,7 +79,7 @@ namespace MultiLayerPerceptron.WebApi.Controllers
         /// </summary>
         /// <param name="id">Neural network id</param>
         /// <returns>list of all image processing configs</returns>
-        [HttpGet("neural-network/{Id}")]
+        [HttpGet("neural-network/{id}")]
         [ProducesResponseType(typeof(BaseResponse<IEnumerable<ImageProcessingConfigDto>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<BaseResponse<IEnumerable<ImageProcessingConfigDto>>>> GetImageProcessingConfigs(Guid id)
         {

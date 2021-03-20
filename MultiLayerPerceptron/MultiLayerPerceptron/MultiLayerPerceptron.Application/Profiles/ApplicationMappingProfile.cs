@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Data.Entities;
 
@@ -26,6 +25,7 @@ namespace MultiLayerPerceptron.Application.Profiles
             CreateMap<NeuronWeightForCreationDto, NeuronWeight>().ReverseMap();
             CreateMap<NeuronWeightForManipulation, NeuronWeight>().ReverseMap();
             CreateMap<PredictedObjectForCreationDto, PredictedObject>().ReverseMap();
+            CreateMap<PredictedObject, PredictedObjectDto>().ReverseMap();
 
             CreateMap<Neuron, NeuronForManipulation>().ReverseMap();
             CreateMap<NeuralNetworkTrainingConfig, NeuralNetworkTrainingConfigDto>().ReverseMap();

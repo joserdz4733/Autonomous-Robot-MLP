@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Application.Extensions;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Dtos;

@@ -6,21 +6,45 @@
         xmlns:local="clr-namespace:ClientApp"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="Mlp DataSet client" Height="800" Width="1000">
-    <Grid>
-        <ComboBox HorizontalAlignment="Left" Margin="840,55,0,0" VerticalAlignment="Top" Width="120" Name="CmbNeuralNetwork" SelectionChanged="CmbNeuralNetwork_SelectionChanged"/>
-        <Label Content="Neural Network" HorizontalAlignment="Left" Margin="725,55,0,0" VerticalAlignment="Top" Width="110"/>
-        <Image Name="CtrCaptureImage" HorizontalAlignment="Left" Height="480" Margin="20,52,0,0" VerticalAlignment="Top" Width="640"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="480" Margin="20,52,0,0" VerticalAlignment="Top" Width="640"/>
-        <ComboBox HorizontalAlignment="Left" Margin="840,94,0,0" VerticalAlignment="Top" Width="120" Name="CmbPredictedObject" SelectionChanged="CmbPredictedObject_SelectionChanged"/>
-        <Label Content="Predicted Object" HorizontalAlignment="Left" Margin="725,94,0,0" VerticalAlignment="Top" Width="110"/>
-        <Button Name="BtnCapture" Content="Capture" HorizontalAlignment="Left" Margin="885,176,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.203,0.531" IsEnabled="False" Click="BtnCapture_Click"/>
-        <Label Content="Count: 0" Name="lblCount" HorizontalAlignment="Left" Margin="725,170,0,0" VerticalAlignment="Top"/>
-        <Button Name="BtnCreateFile" IsEnabled="False" Click="BtnCreateFile_Click" Content="Create File" HorizontalAlignment="Left" Margin="885,314,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBox Name="TxtFileName" HorizontalAlignment="Left" Height="23" Margin="725,310,0,0" TextWrapping="Wrap" Text="Test.txt" VerticalAlignment="Top" Width="95"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="23" Margin="725,310,0,0" VerticalAlignment="Top" Width="95"/>
-        <TextBox HorizontalAlignment="Left" Name="TxtBase64" Height="80" Margin="20,560,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="620"/>
-        <Label Content="Img Base64" HorizontalAlignment="Left" Margin="20,534,0,0" VerticalAlignment="Top"/>
-        <Button Content="Preview" Name="BtnPreview" Click="BtnPreview_Click" HorizontalAlignment="Left" Margin="885,140,0,0" VerticalAlignment="Top" Width="75"/>
+        Title="Mlp DataSet client" Height="686" Width="978">
+    <Grid Margin="0,0,10,8">
+        <ComboBox HorizontalAlignment="Left" Margin="820,41,0,0" VerticalAlignment="Top" Width="120"
+                  Name="CmbNeuralNetwork" SelectionChanged="CmbNeuralNetwork_SelectionChanged"
+                  DisplayMemberPath="Name" />
+        <Label Content="Neural Network" HorizontalAlignment="Left" Margin="697,41,0,0" VerticalAlignment="Top"
+               Width="110" />
+        <Image Name="CtrCaptureImage" HorizontalAlignment="Left" Height="480" Margin="20,37,0,0"
+               VerticalAlignment="Top" Width="640" Source="default.png" />
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="480" Margin="20,37,0,0"
+                VerticalAlignment="Top" Width="640" />
+        <ComboBox HorizontalAlignment="Left" Margin="820,80,0,0" VerticalAlignment="Top" Width="120"
+                  Name="CmbPredictedObject" SelectionChanged="CmbPredictedObject_SelectionChanged"
+                  DisplayMemberPath="ObjectName" />
+        <Label Content="Predicted Object" HorizontalAlignment="Left" Margin="697,80,0,0" VerticalAlignment="Top"
+               Width="110" />
+        <Button Name="BtnCapture" Content="Capture" HorizontalAlignment="Left" Margin="865,217,0,0"
+                VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.203,0.531" IsEnabled="False"
+                Click="BtnCapture_Click" />
+        <Label Content="Count: 0" Name="LblCount" HorizontalAlignment="Left" Margin="697,211,0,0"
+               VerticalAlignment="Top" />
+        <Button Name="BtnCreateFile" IsEnabled="False" Click="BtnCreateFile_Click" Content="Create File"
+                HorizontalAlignment="Left" Margin="865,300,0,0" VerticalAlignment="Top" Width="75" />
+        <TextBox Name="TxtFileName" HorizontalAlignment="Left" Height="23" Margin="705,296,0,0" TextWrapping="Wrap"
+                 Text="Test.txt" VerticalAlignment="Top" Width="95" />
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="23" Margin="705,296,0,0"
+                VerticalAlignment="Top" Width="95" />
+        <TextBox HorizontalAlignment="Left" Name="TxtBase64" Height="80" Margin="20,545,0,0" TextWrapping="Wrap"
+                 Text="" VerticalAlignment="Top" Width="640" />
+        <Label Content="Img Base64 string" HorizontalAlignment="Left" Margin="20,519,0,0" VerticalAlignment="Top"
+               Width="112" />
+        <Button Content="Preview" Name="BtnPreview" Click="BtnPreview_Click" HorizontalAlignment="Left"
+                Margin="865,137,0,0" VerticalAlignment="Top" Width="75" />
+        <Label Content="DataSet Name" HorizontalAlignment="Left" Margin="697,259,0,0" VerticalAlignment="Top"
+               Width="110" />
+        <GridSplitter HorizontalAlignment="Left" Height="4" Margin="697,111,0,0" VerticalAlignment="Top" Width="243" />
+        <GridSplitter HorizontalAlignment="Left" Height="4" Margin="697,253,0,0" VerticalAlignment="Top" Width="243" />
+        <GridSplitter HorizontalAlignment="Left" Height="4" Margin="697,183,0,0" VerticalAlignment="Top" Width="243" />
+        <CheckBox Content="binarized image" Name="ChkPreviewBinarized" IsEnabled="False" HorizontalAlignment="Left" Margin="705,140,0,0"
+                  VerticalAlignment="Top" />
     </Grid>
 </Window>

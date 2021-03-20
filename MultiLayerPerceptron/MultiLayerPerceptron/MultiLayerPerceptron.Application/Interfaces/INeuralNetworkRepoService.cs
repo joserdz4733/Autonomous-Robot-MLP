@@ -1,5 +1,4 @@
-﻿using MLP.Models.OutputModels;
-using MultiLayerPerceptron.Contract.Dtos;
+﻿using MultiLayerPerceptron.Contract.Dtos;
 using MultiLayerPerceptron.Contract.Enums;
 using MultiLayerPerceptron.Data.Entities;
 using System;

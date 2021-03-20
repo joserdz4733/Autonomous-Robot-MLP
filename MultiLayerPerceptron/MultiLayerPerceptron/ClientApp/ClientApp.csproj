@@ -4,6 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>OneDrive.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,10 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MultiLayerPerceptron.Application\MultiLayerPerceptron.Application.csproj" />
     <ProjectReference Include="..\MultiLayerPerceptron.Contract\MultiLayerPerceptron.Contract.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CameraSets\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MLP.Models.OutputModels;
 using MultiLayerPerceptron.Application.Interfaces;
 using MultiLayerPerceptron.Contract.Responses;
 using System;
 using System.Threading.Tasks;
+using MultiLayerPerceptron.Contract.Dtos;
 
 namespace MultiLayerPerceptron.WebApi.Controllers
 {
