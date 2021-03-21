@@ -69,7 +69,16 @@ namespace ClientApp
             {
                 ChkPreviewBinarized.IsEnabled = true;
                 BtnCreateFile.IsEnabled = true;
+                TxtError.Text = "";
             }
+            else
+            {
+                ChkPreviewBinarized.IsEnabled = false;
+                BtnCreateFile.IsEnabled = false;
+                TxtError.Text =
+                    "Error \nImage processing config not found, please create/active one on the web client.";
+            }
+
             CmbPredictedObject.ItemsSource = _trainingConfig.PredictedObjects;
         }
 

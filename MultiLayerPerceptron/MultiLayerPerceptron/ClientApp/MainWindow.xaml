@@ -46,5 +46,7 @@
         <GridSplitter HorizontalAlignment="Left" Height="4" Margin="697,183,0,0" VerticalAlignment="Top" Width="243" />
         <CheckBox Content="binarized image" Name="ChkPreviewBinarized" IsEnabled="False" HorizontalAlignment="Left" Margin="705,140,0,0"
                   VerticalAlignment="Top" />
+        <TextBlock Name="TxtError" HorizontalAlignment="Left" Margin="697,545,0,0" TextWrapping="WrapWithOverflow"
+                   VerticalAlignment="Top" Height="80" Width="243" Foreground="Red" />
     </Grid>
 </Window>

@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLayerPerceptron.Contra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLayerPerceptron.Application", "MultiLayerPerceptron.Application\MultiLayerPerceptron.Application.csproj", "{13DF5C11-BFB8-4BFD-9D89-DEE66A87F7EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp", "ClientApp\ClientApp.csproj", "{537DF336-A1D8-401B-BB66-AED1B6091EFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientDataSetApp", "ClientApp\ClientDataSetApp.csproj", "{537DF336-A1D8-401B-BB66-AED1B6091EFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
