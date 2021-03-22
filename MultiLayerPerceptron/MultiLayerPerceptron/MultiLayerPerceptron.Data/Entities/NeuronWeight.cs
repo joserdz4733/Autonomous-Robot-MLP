@@ -8,6 +8,9 @@ namespace MultiLayerPerceptron.Data.Entities
         [Key]
         public int Id { get; set; }        
 
+        /// <summary>
+        /// base 1 index
+        /// </summary>
         [Required]
         public int Index { get; set; }
 
